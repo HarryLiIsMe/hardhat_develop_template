@@ -1,0 +1,11 @@
+node_modules
+# .env
+
+# Hardhat files
+build
+
+# TypeChain files
+
+# solidity-coverage files
+coverage
+coverage.json

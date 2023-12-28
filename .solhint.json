@@ -1,0 +1,9 @@
+{
+  "extends": "solhint:recommended",
+  "plugins": [
+    "prettier"
+  ],
+  "rules": {
+    "max-line-length": "off"
+  }
+}
