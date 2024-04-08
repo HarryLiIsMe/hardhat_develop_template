@@ -1,5 +1,5 @@
 {
-  "name": "hardhat-develop-template",
+  "name": "hardhat_develop_template",
   "version": "1.0.0",
   "scripts": {
     "compile": "yarn hardhat compile",
