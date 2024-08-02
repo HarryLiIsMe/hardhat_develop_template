@@ -2,32 +2,27 @@ import { Signer } from 'ethers';
 import { ethers } from 'hardhat';
 
 async function main() {
-  const [deployer]: Signer[] = await ethers.getSigners();
-  const deployerAddress = await deployer.getAddress();
+    const [deployer]: Signer[] = await ethers.getSigners();
+    const deployerAddress = await deployer.getAddress();
 
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+    const amount = ethers.parseEther('0.0001');
 
-  const lockedAmount = ethers.parseEther('0.001');
+    const counter = await ethers.deployContract('Counter', [10], {
+        value: amount,
+    });
 
-  const lock = await ethers.deployContract('Lock', [unlockTime], {
-    value: lockedAmount,
-  });
+    await counter.waitForDeployment();
 
-  await lock.waitForDeployment();
-
-  console.log(
-    `Lock with ${ethers.formatEther(
-      lockedAmount,
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${
-      lock.target
-    }, deployer address is ${deployerAddress}`,
-  );
+    console.log(
+        `Counter with ${ethers.formatEther(amount)}ETH and deployed to ${
+            counter.target
+        }, deployer address is ${deployerAddress}`,
+    );
 }
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
+    console.error(error);
+    process.exitCode = 1;
 });
