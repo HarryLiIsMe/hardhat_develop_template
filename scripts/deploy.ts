@@ -1,5 +1,10 @@
 import { Signer } from 'ethers';
 import { ethers } from 'hardhat';
+import Debug from 'debug';
+
+const logDebug = Debug('debug');
+const logInfo = Debug('info');
+const logErr = Debug('error');
 
 async function main() {
     const [deployer]: Signer[] = await ethers.getSigners();
@@ -13,7 +18,7 @@ async function main() {
 
     await counter.waitForDeployment();
 
-    console.log(
+    logInfo(
         `Counter with ${ethers.formatEther(amount)}ETH and deployed to ${
             counter.target
         }, deployer address is ${deployerAddress}`,
@@ -23,6 +28,6 @@ async function main() {
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
 main().catch((error) => {
-    console.error(error);
+    logErr(error);
     process.exitCode = 1;
 });
