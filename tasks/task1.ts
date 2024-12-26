@@ -13,6 +13,8 @@ task('task1', 'task test example1')
 
 async function task1(args: { arg1: string }, hre: HardhatRuntimeEnvironment) {
     try {
+        logInfo('task test example1');
+
         const project_name =
             process.env.PROJECT_NAME || 'HARDHAT_DEVELOP_TEMPLATE';
         logInfo(project_name);
@@ -36,22 +38,20 @@ task('task2', 'task test example2')
 
 async function task2(args: TaskArguments, hre: HardhatRuntimeEnvironment) {
     try {
-        try {
-            const project_name =
-                process.env.PROJECT_NAME || 'HARDHAT_DEVELOP_TEMPLATE';
-            logInfo(project_name);
+        logInfo('task test example2');
 
-            logDebug(args.arg1);
+        const project_name =
+            process.env.PROJECT_NAME || 'HARDHAT_DEVELOP_TEMPLATE';
+        logInfo(project_name);
 
-            const [signer1] = await hre.ethers.getSigners();
-            const chainID = hre.network.config.chainId!;
-            const bal1 = await hre.ethers.provider.getBalance(signer1);
-            logErr('signer1 address: ', await signer1.getAddress());
-            logErr('signer1 balance', bal1);
-            logInfo('chainID: ', chainID);
-        } catch (err) {
-            logErr('error: ', err);
-        }
+        logDebug(args.arg1);
+
+        const [signer1] = await hre.ethers.getSigners();
+        const chainID = hre.network.config.chainId!;
+        const bal1 = await hre.ethers.provider.getBalance(signer1);
+        logErr('signer1 address: ', await signer1.getAddress());
+        logErr('signer1 balance', bal1);
+        logInfo('chainID: ', chainID);
     } catch (err) {
         logErr('error: ', err);
     }
