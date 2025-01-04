@@ -1,5 +1,7 @@
 all: build
 
+.PHONY: build
+
 
 install:
 	pnpm i
