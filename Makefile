@@ -30,8 +30,8 @@ dep_dev:
 dep_testnet:
 	pnpm run dep:testnet
 
-dep_mainet:
-	pnpm run dep:mainet
+dep_mainnet:
+	pnpm run dep:mainnet
 
 task1_dev:
 	pnpm run task1:dev
@@ -39,8 +39,8 @@ task1_dev:
 task1_testnet:
 	pnpm run task1:testnet
 
-task1_mainet:
-	pnpm run task1:mainet
+task1_mainnet:
+	pnpm run task1:mainnet
 	
 task2_dev:
 	pnpm run task2:dev
@@ -48,14 +48,14 @@ task2_dev:
 task2_testnet:
 	pnpm run task2:testnet
 
-task2_mainet:
-	pnpm run task2:mainet
+task2_mainnet:
+	pnpm run task2:mainnet
 
 verify_testnet:
 	pnpm run verify:testnet
 
-verify_mainet:
-	pnpm run verify:mainet
+verify_mainnet:
+	pnpm run verify:mainnet
 
 test_dev:
 	pnpm run test:dev
@@ -63,8 +63,8 @@ test_dev:
 test_testnet:
 	pnpm run test:testnet
 
-test_mainet:
-	pnpm run test:mainet
+test_mainnet:
+	pnpm run test:mainnet
 
 bench:
 
