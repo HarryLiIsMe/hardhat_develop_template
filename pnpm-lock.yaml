@@ -97,7 +97,7 @@ importers:
         version: 9.1.0(eslint@9.17.0)
       eslint-plugin-prettier:
         specifier: ^5.2.1
-        version: 5.2.1(eslint-config-prettier@9.1.0(eslint@9.17.0))(eslint@9.17.0)(prettier@2.8.8)
+        version: 5.2.1(eslint-config-prettier@9.1.0(eslint@9.17.0))(eslint@9.17.0)(prettier@3.5.0)
       ethers:
         specifier: ^6.13.4
         version: 6.13.4(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -134,18 +134,24 @@ importers:
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
+      prettier:
+        specifier: ^3.4.2
+        version: 3.5.0
       prettier-plugin-solidity:
         specifier: ^1.4.1
-        version: 1.4.1(prettier@2.8.8)
+        version: 1.4.1(prettier@3.5.0)
       rimraf:
         specifier: ^5.0.10
         version: 5.0.10
+      run-s:
+        specifier: ^0.0.0
+        version: 0.0.0
       solhint:
         specifier: ^4.5.4
         version: 4.5.4(typescript@5.7.2)
       solhint-plugin-prettier:
         specifier: ^0.1.0
-        version: 0.1.0(prettier-plugin-solidity@1.4.1(prettier@2.8.8))(prettier@2.8.8)
+        version: 0.1.0(prettier-plugin-solidity@1.4.1(prettier@3.5.0))(prettier@3.5.0)
       solidity-coverage:
         specifier: ^0.8.14
         version: 0.8.14(hardhat@2.22.17(bufferutil@4.0.8)(ts-node@10.9.2(@types/node@20.17.10)(typescript@5.7.2))(typescript@5.7.2)(utf-8-validate@5.0.10))
@@ -4502,6 +4508,11 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
+  prettier@3.5.0:
+    resolution: {integrity: sha512-quyMrVt6svPS7CjQ9gKb3GLEX/rl3BCL2oa/QkNcXv4YNVBC9olt3s+H7ukto06q7B1Qz46PbrKLO34PR6vXcA==}
+    engines: {node: '>=14'}
+    hasBin: true
+
   private@0.1.8:
     resolution: {integrity: sha512-VvivMrbvd2nKkiG38qjULzlc+4Vx4wm/whI9pQD35YrARNnhxeiRktSOhSukRLFNlzg6Br/cJPet5J/u19r/mg==}
     engines: {node: '>= 0.6'}
@@ -4837,6 +4848,9 @@ packages:
 
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
+
+  run-s@0.0.0:
+    resolution: {integrity: sha512-KPDNauF2Tpnm3nG0+0LJuJxwBFrhAdthpM8bVdDvjWQA7pWP7QoNwEl1+dJ7WVJj81AQP/i6kl6JUmAk7tg3Og==}
 
   rustbn.js@0.2.0:
     resolution: {integrity: sha512-4VlvkRUuCJvr2J6Y0ImW7NvTCriMi7ErOAqWk1y69vAdoNIzCF3yPmgeNzx+RQTLEDFq5sHfscn1MwHxP9hNfA==}
@@ -6962,9 +6976,9 @@ snapshots:
       '@pnpm/network.ca-file': 1.0.2
       config-chain: 1.1.13
 
-  '@prettier/sync@0.3.0(prettier@2.8.8)':
+  '@prettier/sync@0.3.0(prettier@3.5.0)':
     dependencies:
-      prettier: 2.8.8
+      prettier: 3.5.0
 
   '@scure/base@1.1.9': {}
 
@@ -9312,10 +9326,10 @@ snapshots:
     dependencies:
       eslint: 9.17.0
 
-  eslint-plugin-prettier@5.2.1(eslint-config-prettier@9.1.0(eslint@9.17.0))(eslint@9.17.0)(prettier@2.8.8):
+  eslint-plugin-prettier@5.2.1(eslint-config-prettier@9.1.0(eslint@9.17.0))(eslint@9.17.0)(prettier@3.5.0):
     dependencies:
       eslint: 9.17.0
-      prettier: 2.8.8
+      prettier: 3.5.0
       prettier-linter-helpers: 1.0.0
       synckit: 0.9.2
     optionalDependencies:
@@ -11997,13 +12011,15 @@ snapshots:
     dependencies:
       fast-diff: 1.3.0
 
-  prettier-plugin-solidity@1.4.1(prettier@2.8.8):
+  prettier-plugin-solidity@1.4.1(prettier@3.5.0):
     dependencies:
       '@solidity-parser/parser': 0.18.0
-      prettier: 2.8.8
+      prettier: 3.5.0
       semver: 7.6.3
 
   prettier@2.8.8: {}
+
+  prettier@3.5.0: {}
 
   private@0.1.8: {}
 
@@ -12386,6 +12402,8 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
+  run-s@0.0.0: {}
+
   rustbn.js@0.2.0: {}
 
   rxjs@7.8.1:
@@ -12679,12 +12697,12 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  solhint-plugin-prettier@0.1.0(prettier-plugin-solidity@1.4.1(prettier@2.8.8))(prettier@2.8.8):
+  solhint-plugin-prettier@0.1.0(prettier-plugin-solidity@1.4.1(prettier@3.5.0))(prettier@3.5.0):
     dependencies:
-      '@prettier/sync': 0.3.0(prettier@2.8.8)
-      prettier: 2.8.8
+      '@prettier/sync': 0.3.0(prettier@3.5.0)
+      prettier: 3.5.0
       prettier-linter-helpers: 1.0.0
-      prettier-plugin-solidity: 1.4.1(prettier@2.8.8)
+      prettier-plugin-solidity: 1.4.1(prettier@3.5.0)
 
   solhint@4.5.4(typescript@5.7.2):
     dependencies:

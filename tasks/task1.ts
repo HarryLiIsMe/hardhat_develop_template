@@ -2,6 +2,9 @@ import { task, types } from 'hardhat/config';
 import type { TaskArguments } from 'hardhat/types';
 import type { HardhatRuntimeEnvironment } from 'hardhat/types';
 import Debug from 'debug';
+import { CounterAbi } from './abis';
+import { Counter } from '../build/types/Counter';
+import { Contract, TransactionReceipt, TransactionResponse } from 'ethers';
 
 const logDebug = Debug('debug');
 const logInfo = Debug('info');
@@ -27,6 +30,36 @@ async function task1(args: { arg1: string }, hre: HardhatRuntimeEnvironment) {
         logErr('signer1 address: ', await signer1.getAddress());
         logErr('signer1 balance', bal1);
         logInfo('chainID: ', chainID);
+
+        const counter = new Contract(
+            process.env.COUNTER_DEPLOY_ADDR!,
+            CounterAbi,
+            signer1,
+        ) as unknown as Counter;
+
+        logInfo('counter value: ', (await counter.number()).toString());
+
+        logInfo('counter increment');
+        let txRes: TransactionResponse = await counter.increment();
+        let receipt: TransactionReceipt | null = await txRes.wait();
+        if (receipt == null) {
+            throw 'increment receipt get failed';
+        }
+        if (receipt.status != 1) {
+            throw 'increment transaction failed';
+        }
+        logInfo('counter value: ', (await counter.number()).toString());
+
+        logInfo('counter setNumber 99');
+        txRes = await counter.setNumber(BigInt('99'));
+        receipt = await txRes.wait();
+        if (receipt == null) {
+            throw 'setNumber receipt get failed';
+        }
+        if (receipt.status != 1) {
+            throw 'setNumber transaction failed';
+        }
+        logInfo('counter value: ', (await counter.number()).toString());
     } catch (err) {
         logErr('error: ', err);
     }
