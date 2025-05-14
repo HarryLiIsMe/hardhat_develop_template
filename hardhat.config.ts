@@ -15,7 +15,7 @@ import './tasks/task1';
 
 const config: HardhatUserConfig = {
     solidity: {
-        version: '0.8.20',
+        version: '0.8.24',
         settings: {
             optimizer: {
                 enabled: true,
@@ -57,8 +57,8 @@ const config: HardhatUserConfig = {
     },
     etherscan: {
         apiKey: {
-            sepolia: process.env.TESTNET_APIKEY,
-            mainnet: process.env.MAINNET_APIKEY,
+            sepolia: process.env.TESTNET_APIKEY!,
+            mainnet: process.env.MAINNET_APIKEY!,
         },
     },
     sourcify: {

@@ -33,6 +33,15 @@ dep_testnet:
 dep_mainnet:
 	pnpm run dep:mainnet
 
+upgrade_dev:
+	pnpm run upgrade:dev
+
+upgrade_testnet:
+	pnpm run upgrade:dev
+
+upgrade_mainnet:
+	pnpm run upgrade:testnet
+
 task1_dev:
 	pnpm run task1:dev
 
@@ -69,3 +78,4 @@ test_mainnet:
 bench:
 
 coverage:
+	pnpm run coverage

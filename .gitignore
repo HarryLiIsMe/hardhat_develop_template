@@ -9,3 +9,6 @@ build
 # solidity-coverage files
 coverage
 coverage.json
+
+deploy/*
+!deploy/.gitkeep

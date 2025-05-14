@@ -2,9 +2,10 @@ import { task, types } from 'hardhat/config';
 import type { TaskArguments } from 'hardhat/types';
 import type { HardhatRuntimeEnvironment } from 'hardhat/types';
 import Debug from 'debug';
-import { CounterAbi } from './abis';
-import { Counter } from '../build/types/Counter';
+import { CounterAbi } from '../abis';
+import { Counter } from '../build/types/contracts/Counter';
 import { Contract, TransactionReceipt, TransactionResponse } from 'ethers';
+import { readFileSync } from 'fs';
 
 const logDebug = Debug('debug');
 const logInfo = Debug('info');
@@ -31,13 +32,18 @@ async function task1(args: { arg1: string }, hre: HardhatRuntimeEnvironment) {
         logErr('signer1 balance', bal1);
         logInfo('chainID: ', chainID);
 
+        const contrInfo: {
+            proxy_addr: string;
+        } = JSON.parse(readFileSync('deploy/counter.json', 'utf-8'));
+
         const counter = new Contract(
-            process.env.COUNTER_DEPLOY_ADDR!,
+            contrInfo.proxy_addr,
             CounterAbi,
             signer1,
         ) as unknown as Counter;
 
-        logInfo('counter value: ', (await counter.number()).toString());
+        logInfo('counter value: ', await counter.getNumber());
+        logInfo('version: ', await counter.getVersion());
 
         logInfo('counter increment');
         let txRes: TransactionResponse = await counter.increment();
@@ -48,7 +54,8 @@ async function task1(args: { arg1: string }, hre: HardhatRuntimeEnvironment) {
         if (receipt.status != 1) {
             throw 'increment transaction failed';
         }
-        logInfo('counter value: ', (await counter.number()).toString());
+        logInfo('counter value: ', await counter.getNumber());
+        logInfo('version: ', await counter.getVersion());
 
         logInfo('counter setNumber 99');
         txRes = await counter.setNumber(BigInt('99'));
@@ -59,7 +66,8 @@ async function task1(args: { arg1: string }, hre: HardhatRuntimeEnvironment) {
         if (receipt.status != 1) {
             throw 'setNumber transaction failed';
         }
-        logInfo('counter value: ', (await counter.number()).toString());
+        logInfo('counter value: ', await counter.getNumber());
+        logInfo('version: ', await counter.getVersion());
     } catch (err) {
         logErr('error: ', err);
     }
