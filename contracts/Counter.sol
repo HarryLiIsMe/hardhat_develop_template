@@ -37,6 +37,13 @@ contract Counter is
         number = _number;
     }
 
+    function _authorizeUpgrade(
+        address newImplementation
+    ) internal override onlyOwner {}
+
+    receive() external payable {}
+    fallback() external payable {}
+
     function getNumber() public view returns (uint256) {
         return number;
     }
@@ -48,11 +55,4 @@ contract Counter is
     function increment() public {
         number++;
     }
-
-    function _authorizeUpgrade(
-        address newImplementation
-    ) internal override onlyOwner {}
-
-    receive() external payable {}
-    fallback() external payable {}
 }

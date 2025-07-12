@@ -35,16 +35,12 @@ async function main() {
 
     const newCounter = await ethers.getContractFactory('Counter');
     const upgraded = await upgrades.upgradeProxy(proxyAddr1, newCounter, {
-        call: {
-            fn: 'updateVersion',
-            args: [],
-        },
+        // call: {
+        //     fn: 'updateVersion',
+        //     args: [],
+        // },
     });
     await upgraded.waitForDeployment();
-    const verNum3 = Number(await (upgraded as unknown as Counter).getVersion());
-    if (verNum3 !== verNum2 + 1) {
-        throw `upgrade version error2: ${verNum2} ${verNum3}`;
-    }
 
     const proxyAddr2 = upgraded.target;
     const proxyAddr3 = await upgraded.getAddress();
@@ -60,9 +56,19 @@ async function main() {
     if (logicAddr1.toLowerCase() === logicAddr2.toLowerCase()) {
         throw `deploy logic address error: ${logicAddr1} ${logicAddr2}`;
     }
+
+    const versionCtrl = upgraded as unknown as Counter;
+    const tx = await versionCtrl.updateVersion();
+    tx.wait();
+    const verNum3 = Number(await versionCtrl.getVersion());
+    if (verNum3 !== verNum2 + 1) {
+        throw `upgrade version error2: ${verNum2} ${verNum3}`;
+    }
+
     logInfo(
-        `Counter be upgraded. proxy address: ${proxyAddr1}, logic address: ${logicAddr1}, deployer address is ${deployerAddr}`,
+        `Counter be upgraded. proxy address: ${proxyAddr1}, logic address: ${logicAddr2}, deployer address is ${deployerAddr}, new version: ${verNum3}`,
     );
+
     writeFileSync(
         'deploy/counter.json',
         JSON.stringify(
@@ -73,7 +79,7 @@ async function main() {
                 state: 'upgrade',
                 version: verNum3,
                 proxy_addr: proxyAddr1,
-                logic_addr: logicAddr1,
+                logic_addr: logicAddr2,
                 executor: deployerAddr,
             },
             null,
