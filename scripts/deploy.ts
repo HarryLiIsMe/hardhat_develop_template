@@ -11,12 +11,30 @@ async function main() {
     const [deployer]: Signer[] = await ethers.getSigners();
     const deployerAddr = await deployer.getAddress();
 
+    const LibMath = await ethers.getContractFactory('LibMath');
+    const libMath = await LibMath.deploy();
+    await libMath.waitForDeployment();
+
+    logInfo(
+        `library LibMath be deployed and deployed address is ${libMath.target}, deployer address is ${deployerAddr}`,
+    );
+
     const amount = ethers.parseEther('0.0001');
 
-    const Counter = await ethers.getContractFactory('Counter');
+    const Counter = await ethers.getContractFactory('Counter', {
+        // 这里指定外部链接的library库和其部署地址.
+        libraries: {
+            LibMath: libMath.target,
+        },
+    });
     const counter = await upgrades.deployProxy(Counter, [10], {
         kind: 'uups',
         initializer: 'initialize',
+        // 因为hardhat的可升级代理部署默认不支持外部链接library, 这样会存在安全隐患.
+        // 所以这里必须把unsafeAllowLinkedLibraries设置为true来手动跳过这个安全error. 否则部署会报错:
+        // Error: Contract `contracts/Counter.sol:Counter` is not upgrade safe
+        // contracts/LibMath.sol: Linking external libraries like `LibMath` is not yet supported
+        unsafeAllowLinkedLibraries: true,
         txOverrides: {
             value: amount,
         },
@@ -33,9 +51,7 @@ async function main() {
     }
 
     logInfo(
-        `Counter with ${ethers.formatEther(amount)}ETH and deployed proxy address: ${
-            proxyAddr2
-        }, logic address: ${logicAddr}, deployer address is ${deployerAddr}`,
+        `contract Counter be deployed with ${ethers.formatEther(amount)}ETH and deployed proxy address is ${proxyAddr2}, deployed logic address is ${logicAddr}, deployer address is ${deployerAddr}`,
     );
 
     writeFileSync(
@@ -49,6 +65,7 @@ async function main() {
                 version: 1,
                 proxy_addr: proxyAddr1,
                 logic_addr: logicAddr,
+                lib_math: libMath.target,
                 executor: deployerAddr,
             },
             null,

@@ -9,6 +9,7 @@ import { AccessControlUpgradeable } from "@openzeppelin/contracts-upgradeable/ac
 
 import "./ICounter.sol";
 import "./utils/VersionControl.sol";
+import "./LibMath.sol";
 
 contract Counter is
     ICounter,
@@ -19,6 +20,8 @@ contract Counter is
     AccessControlUpgradeable,
     UUPSUpgradeable
 {
+    using LibMath for uint256;
+
     uint256 public number;
 
     // It cannot serve as initialization function, but must be marked as payable to indicate that it can receive value.
@@ -56,6 +59,7 @@ contract Counter is
     }
 
     function increment() public nonReentrant {
-        number++;
+        // 等价于number = LibMath.add(number, 1);
+        number = number.add(1);
     }
 }

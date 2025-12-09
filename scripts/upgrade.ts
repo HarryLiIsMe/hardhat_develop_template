@@ -16,6 +16,7 @@ async function main() {
     const contrInfo: {
         proxy_addr: string;
         logic_addr: string;
+        lib_math: string;
         version: number;
     } = JSON.parse(readFileSync('deploy/counter.json', 'utf-8'));
     const proxyAddr1 = contrInfo.proxy_addr;
@@ -33,8 +34,13 @@ async function main() {
         throw `upgrade version error1: ${verNum1} ${verNum2}`;
     }
 
-    const newCounter = await ethers.getContractFactory('Counter');
+    const newCounter = await ethers.getContractFactory('Counter', {
+        libraries: {
+            LibMath: contrInfo.lib_math,
+        },
+    });
     const upgraded = await upgrades.upgradeProxy(proxyAddr1, newCounter, {
+        unsafeAllowLinkedLibraries: true,
         // call: {
         //     fn: 'updateVersion',
         //     args: [],
@@ -66,7 +72,7 @@ async function main() {
     }
 
     logInfo(
-        `Counter be upgraded. proxy address: ${proxyAddr1}, logic address: ${logicAddr2}, deployer address is ${deployerAddr}, new version: ${verNum3}`,
+        `contract Counter be upgraded and proxy address is ${proxyAddr1}, logic address is ${logicAddr2}, deployer address is ${deployerAddr}, new version is ${verNum3}`,
     );
 
     writeFileSync(
