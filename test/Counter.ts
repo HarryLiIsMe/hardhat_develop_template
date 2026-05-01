@@ -67,7 +67,7 @@ describe('Counter', function () {
                 const { lock } = await loadFixture(deployOneYearLockFixture);
 
                 await expect(lock.withdraw()).to.be.revertedWith(
-                    "You can't withdraw yet",
+                    'You can not withdraw yet',
                 );
             });
 
@@ -82,10 +82,10 @@ describe('Counter', function () {
                 // We use lock.connect() to send a transaction from another account
                 await expect(
                     lock.connect(otherAccount).withdraw(),
-                ).to.be.revertedWith("You aren't the owner");
+                ).to.be.revertedWith('You are not the owner');
             });
 
-            it("Shouldn't fail if the unlockTime has arrived and the owner calls it", async function () {
+            it('Should not fail if the unlockTime has arrived and the owner calls it', async function () {
                 const { lock, unlockTime } = await loadFixture(
                     deployOneYearLockFixture,
                 );
